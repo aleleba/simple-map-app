@@ -5,9 +5,31 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
+import { Provider } from 'react-redux';
+
+import reducer from './reducers';
+
+import { createStore, compose } from 'redux'; //, applyMiddleware
+
+import { composeWithDevTools as composeWithDevToolsWeb } from 'redux-devtools-extension';
+
+import client from './ApolloClient';
+
+const composeEnhancers = composeWithDevToolsWeb({
+  // Specify here name, actionsBlacklist, actionsCreators and other options
+});
+
+let store = createStore(
+  reducer,//(state) => state,
+  {},
+  composeEnhancers()
+)
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
